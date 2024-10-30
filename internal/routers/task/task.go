@@ -21,10 +21,10 @@ type TaskForm struct {
 	Level            models.TaskLevel `binding:"Required;In(1,2)"`
 	DependencyStatus models.TaskDependencyStatus
 	DependencyTaskId string
-	Name             string `binding:"Required;MaxSize(32)"`
+	Name             string `binding:"Required;MaxSize(256)"`
 	Spec             string
 	Protocol         models.TaskProtocol   `binding:"In(1,2)"`
-	Command          string                `binding:"Required;MaxSize(256)"`
+	Command          string                `binding:"Required;MaxSize(1024)"`
 	HttpMethod       models.TaskHTTPMethod `binding:"In(1,2)"`
 	Timeout          int                   `binding:"Range(0,86400)"`
 	Multi            int8                  `binding:"In(1,2)"`
@@ -242,7 +242,7 @@ func Run(ctx *macaron.Context) string {
 	task.Spec = "手动运行"
 	service.ServiceTask.Run(task)
 
-	return json.Success("任务已开始运行, 请到任务日志中查看结果", nil)
+	return json.Success("任务已开始运行, 请到任务日志中查看结果", task)
 }
 
 // 改变任务状态

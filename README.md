@@ -127,7 +127,7 @@ docker run --name gocron --link mysql:db -p 5920:5920 -d ouqg/gocron
 ## 程序使用的组件
 * Web框架 [Macaron](http://go-macaron.com/)
 * 定时任务调度 [Cron](https://github.com/robfig/cron)
-* ORM [Xorm](https://github.com/go-xorm/xorm)
+* ORM [Xorm](https://gitea.com/xorm/xorm)
 * UI框架 [Element UI](https://github.com/ElemeFE/element)
 * 依赖管理 [Govendor](https://github.com/kardianos/govendor)
 * RPC框架 [gRPC](https://github.com/grpc/grpc)

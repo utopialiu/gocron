@@ -20,11 +20,11 @@ kill:
 
 .PHONY: gocron
 gocron:
-	go build $(RACE) -o bin/gocron ./cmd/gocron
+	go build  -ldflags "-linkmode external -extldflags -static" $(RACE) -o bin/gocron ./cmd/gocron
 
 .PHONY: node
 node:
-	go build $(RACE) -o bin/gocron-node ./cmd/node
+	go build -ldflags "-linkmode external -extldflags -static" $(RACE) -o bin/gocron-node ./cmd/node
 
 .PHONY: test
 test:
