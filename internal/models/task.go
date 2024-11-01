@@ -2,6 +2,8 @@ package models
 
 import (
 	"errors"
+	"fmt"
+	"regexp"
 	"strings"
 	"time"
 
@@ -248,17 +250,31 @@ func (task *Task) parseWhere(session *xorm.Session, params CommonMap) {
 	if len(params) == 0 {
 		return
 	}
-	id, ok := params["Id"]
-	if ok && id.(int) > 0 {
-		session.And("t.id = ?", id)
+	id, ok := params["Id"].(string)
+	re := regexp.MustCompile(`[\s;；，,]+`)
+	if ok && id != "" {
+		// 使用 Split 方法按匹配的数字切割字符串
+		parts := re.Split(id, -1)
+		session.In("t.id", parts)
 	}
 	hostId, ok := params["HostId"]
 	if ok && hostId.(int) > 0 {
+
 		session.And("th.host_id = ?", hostId)
 	}
 	name, ok := params["Name"]
 	if ok && name.(string) != "" {
-		session.And("t.name LIKE ?", "%"+name.(string)+"%")
+		parts := re.Split(name.(string), -1)
+		condtions := make([]string, len(parts))
+		for i := 0; i < len(parts); i++ {
+			condtions[i] = "t.name like ?"
+		}
+		fields := make([]interface{}, len(parts))
+		for i, part := range parts {
+			fields[i] = fmt.Sprintf("%%%s%%", part)
+		}
+		// session.And("t.name LIKE ?", "%"+name.(string)+"%")
+		session.And(strings.Join(condtions, " OR "), fields...)
 	}
 	protocol, ok := params["Protocol"]
 	if ok && protocol.(int) > 0 {
@@ -271,6 +287,17 @@ func (task *Task) parseWhere(session *xorm.Session, params CommonMap) {
 
 	tag, ok := params["Tag"]
 	if ok && tag.(string) != "" {
-		session.And("tag = ? ", tag)
+		parts := re.Split(tag.(string), -1)
+		condtions := make([]string, len(parts))
+		for i := 0; i < len(parts); i++ {
+			condtions[i] = "t.tag like ?"
+		}
+		fields := make([]interface{}, len(parts))
+		for i, part := range parts {
+			fields[i] = fmt.Sprintf("%%%s%%", part)
+		}
+		// session.And("t.name LIKE ?", "%"+name.(string)+"%")
+		session.And(strings.Join(condtions, " OR "), fields...)
+		// session.And("tag = ? ", tag)
 	}
 }

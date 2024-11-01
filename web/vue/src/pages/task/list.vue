@@ -13,6 +13,17 @@
         <el-form-item label="标签">
           <el-input v-model.trim="searchParams.tag"></el-input>
         </el-form-item>
+        <el-form-item label="模块">
+          <el-select v-model.trim="searchParams.protocol">
+            <el-option label="全部" value=""></el-option>
+            <el-option
+              v-for="item in protocolList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
       </el-row>
       <el-row>
         <el-form-item label="执行方式">

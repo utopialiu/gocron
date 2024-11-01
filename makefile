@@ -1,4 +1,5 @@
 GO111MODULE=on
+# export CGO_ENABLED=0
 
 .PHONY: build
 build: gocron node

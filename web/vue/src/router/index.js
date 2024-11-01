@@ -26,6 +26,7 @@ import LoginLog from '../pages/system/loginLog'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '*',

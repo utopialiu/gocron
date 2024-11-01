@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Server",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/cmd/gocron/gocron.go", // 设置为主程序文件路径
+            "args": ["web"], // 如果有参数，设置在这里
+            // "env": { "ENV_VAR": "value" }, // 可以配置环境变量
+            // "buildFlags": "",
+            // "port": 2345, // 调试端口
+            "trace": "verbose"
+        }
+    ]
+}
